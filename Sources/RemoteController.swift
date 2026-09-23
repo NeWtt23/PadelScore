@@ -1,6 +1,7 @@
 import AVFoundation
 import MediaPlayer
 import UserNotifications
+import UIKit
 
 /// Hace que la app sea la "reproductora de música" activa, para recibir los
 /// botones de música del reloj y mostrar el marcador como título de la canción.
@@ -138,9 +139,22 @@ final class RemoteController: NSObject, ObservableObject, UNUserNotificationCent
             MPMediaItemPropertyTitle: scorer.summary,
             MPMediaItemPropertyArtist: "Sig.=Nosotros · Ant.=Ellos · Pausa=Deshacer",
             MPMediaItemPropertyAlbumTitle: "Marcador de pádel",
-            MPNowPlayingInfoPropertyPlaybackRate: 1.0
+            MPNowPlayingInfoPropertyPlaybackRate: 1.0,
+            MPNowPlayingInfoPropertyIsLiveStream: true,
+            MPMediaItemPropertyPlaybackDuration: 0.0,
+            MPNowPlayingInfoPropertyElapsedPlaybackTime: 0.0,
+            MPMediaItemPropertyArtwork: nowPlayingArtwork
         ]
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+    }
+
+    private var nowPlayingArtwork: MPMediaItemArtwork {
+        let size = CGSize(width: 300, height: 300)
+        let image = UIGraphicsImageRenderer(size: size).image { ctx in
+            UIColor.systemGreen.setFill()
+            ctx.fill(CGRect(origin: .zero, size: size))
+        }
+        return MPMediaItemArtwork(boundsSize: size) { _ in image }
     }
 
     private func notifyWatch() {
