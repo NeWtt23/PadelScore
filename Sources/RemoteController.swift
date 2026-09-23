@@ -139,9 +139,10 @@ final class RemoteController: NSObject, ObservableObject, UNUserNotificationCent
             MPMediaItemPropertyTitle: scorer.summary,
             MPMediaItemPropertyArtist: "Sig.=Nosotros · Ant.=Ellos · Pausa=Deshacer",
             MPMediaItemPropertyAlbumTitle: "Marcador de pádel",
+            MPMediaItemPropertyMediaType: MPMediaType.music.rawValue,
             MPNowPlayingInfoPropertyPlaybackRate: 1.0,
-            MPNowPlayingInfoPropertyIsLiveStream: true,
-            MPMediaItemPropertyPlaybackDuration: 0.0,
+            MPNowPlayingInfoPropertyDefaultPlaybackRate: 1.0,
+            MPMediaItemPropertyPlaybackDuration: 6000.0,
             MPNowPlayingInfoPropertyElapsedPlaybackTime: 0.0,
             MPMediaItemPropertyArtwork: nowPlayingArtwork
         ]
