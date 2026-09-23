@@ -135,6 +135,10 @@ final class RemoteController: NSObject, ObservableObject, UNUserNotificationCent
     // MARK: - Lo que ve el reloj
 
     private func updateNowPlaying() {
+        // Forzamos "pista nueva" en cada punto: algunos relojes (vía AVRCP/Bluetooth)
+        // cachean el título y sólo lo vuelven a pedir si cambia el ID de la pista,
+        // no si sólo cambia el texto de una pista que sigue "sonando".
+        let trackID = UUID().uuidString
         let info: [String: Any] = [
             MPMediaItemPropertyTitle: scorer.summary,
             MPMediaItemPropertyArtist: "Sig.=Nosotros · Ant.=Ellos · Pausa=Deshacer",
@@ -144,8 +148,11 @@ final class RemoteController: NSObject, ObservableObject, UNUserNotificationCent
             MPNowPlayingInfoPropertyDefaultPlaybackRate: 1.0,
             MPMediaItemPropertyPlaybackDuration: 6000.0,
             MPNowPlayingInfoPropertyElapsedPlaybackTime: 0.0,
-            MPMediaItemPropertyArtwork: nowPlayingArtwork
+            MPMediaItemPropertyArtwork: nowPlayingArtwork,
+            MPNowPlayingInfoPropertyExternalContentIdentifier: trackID,
+            MPNowPlayingInfoPropertyMediaType: NSNumber(value: MPNowPlayingInfoMediaType.audio.rawValue)
         ]
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = [:]
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
     }
 
